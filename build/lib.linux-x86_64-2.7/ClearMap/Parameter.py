@@ -107,7 +107,7 @@ See Also:
 ## Parameter for processing a stack in parallel
 processStackParameter = {
     #max number of parallel processes
-    "processes" : 6,
+    "processes" : 2,
    
     #chunk sizes
     "chunkSizeMax" : 100,
@@ -119,7 +119,6 @@ processStackParameter = {
     
     #increase chunk size for optimizaition (True, False or all = automatic)
     "chunkOptimizationSize" : all
-    
     };
 """
 dict: Parameter for processing an image stack in parallel
@@ -171,7 +170,6 @@ See Also:
 
 ## Parameter for resampling data
 ResamplingParameter = {
-    "processes": 12
     
     #Data source and output file
     "source" : None,

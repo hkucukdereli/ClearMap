@@ -459,7 +459,7 @@ def alignData(fixedImage, movingImage, affineParameterFile, bSplineParameterFile
     else:
         cmd = ElastixBinary + ' -threads 16 -m ' + movingImage + ' -f ' + fixedImage + ' -p ' + affineParameterFile + ' -p ' + bSplineParameterFile + ' -out ' + resultDirectory;
         #$ELASTIX -threads 16 -m $MOVINGIMAGE -f $FIXEDIMAGE -fMask $FIXEDIMAGE_MASK -p  $AFFINEPARFILE -p $BSPLINEPARFILE -out $ELASTIX_OUTPUT_DIR
-
+    
     res = os.system(cmd);
     
     if res != 0:

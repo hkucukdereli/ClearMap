@@ -83,6 +83,7 @@ def tTestVoxelization(group1, group2, signed = False, removeNaN = True, pcutoff 
 def cutoffPValues(pvals, pcutoff = 0.05):
     if pcutoff is None:
         return pvals;
+    
     pvals2 = pvals.copy();
     pvals2[pvals2 > pcutoff]  = pcutoff;
     return pvals2;
