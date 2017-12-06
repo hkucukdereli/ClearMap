@@ -22,16 +22,6 @@ from ClearMap.Analysis.Label import labelToName
 
 
 ######################### Data parameters
-
-#Directory to save all the results, usually containing the data for one sample
-#BaseDirectory = '/home/clearmap/Documents/data/haloperidol/1269';
-
-#Data File and Reference channel File, usually as a sequence of files from the microscope
-#Use \d{4} for 4 digits in the sequence for instance. As an example, if you have cfos-Z0001.ome.tif :
-#os.path.join() is used to join the BaseDirectory path and the data paths:
-#cFosFile = os.path.join(BaseDirectory, '150819_0_8X-cfos_16-55-11/16-55-11_0_8X-cfos_UltraII_C00_xyz-Table Z\d{4}.ome.tif');
-#AutofluoFile = os.path.join(BaseDirectory, '150819_0_8X-autofluo_18-01-32/18-01-32_0_8X-autofluo_UltraII_C00_xyz-Table Z\d{4}.ome.tif');
-
 #Specify the range for the cell detection. This doesn't affect the resampling and registration operations
 cFosFileRange = {'x' : all, 'y' : (180, 2560), 'z' : all};
 
@@ -49,7 +39,6 @@ AtlasResolution = (25, 25, 25);
 PathReg        = '/home/clearmap/Documents/ClearMap_resources';
 AtlasFile      = os.path.join(PathReg, '25um_Autofluo_Reference/template_25.tif');
 AnnotationFile = os.path.join(PathReg, 'Colored_maps_for_display_purpose_only/annotation_25_full_color.tif');
-
 
 
 ######################### Cell Detection Parameters using custom filters

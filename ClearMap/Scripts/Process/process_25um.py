@@ -2,10 +2,28 @@
 """
 Template to run the processing pipeline
 """
+import os, re
 
 #load the parameters:
-execfile('/home/clearmap/ClearMap/ClearMap/Scripts/hk_1_parameter_file_template.py')
+#execfile('/home/clearmap/ClearMap/ClearMap/Scripts/Parameters/hk_1_parameter_file_template.py')
 
+HomeDirectory = '/home/clearmap/Documents/data'
+ParameterFile = '/home/clearmap/ClearMap/ClearMap/Scripts/Parameters/parameter_file_25um.py'
+Condition = 'saline'
+SampleID = '1272'
+
+BaseDirectory = os.path.join(os.path.join(HomeDirectory, Condition), SampleID)
+
+cFos = filter(re.compile(r'.*-cfos.*').search, next(os.walk(BaseDirectory))[1])[0]
+cFosFile = os.path.join(BaseDirectory, cFos, '.*_8X-cfos_UltraII_C00_xyz-Table Z\d{4}.ome.tif');    
+
+Autofluo = filter(re.compile(r'.*-autofluo.*').search, next(os.walk(BaseDirectory))[1])[0] 
+AutofluoFile = os.path.join(BaseDirectory, Autofluo, '.*_8X-autofluo_UltraII_C00_xyz-Table Z\d{4}.ome.tif');
+
+print('Now processing ' + BaseDirectory)
+
+#load the parameters:
+execfile(ParameterFile)
 
 #resampling operations:
 #######################

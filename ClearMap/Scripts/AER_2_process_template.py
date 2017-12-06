@@ -4,7 +4,7 @@ Template to run the processing pipeline
 """
 
 #load the parameters:
-execfile('/home/clearmap/ClearMap/ClearMap/Scripts/hk_1_parameter_file_template.py')
+execfile('/home/clearmap/ClearMap/ClearMap/Scripts/AER_1_parameter_file_template.py')
 
 
 #resampling operations:
@@ -30,26 +30,26 @@ resultDirectory  = alignData(**RegistrationAlignmentParameter);
 ################
 detectCells(**ImageProcessingParameter);
 
-#Filtering of the detected peaks:
-#################################
+##Filtering of the detected peaks:
+##################################
 #Loading the results:
 points, intensities = io.readPoints(ImageProcessingParameter["sink"]);
-
-#Thresholding: the threshold parameter is either intensity or size in voxel, depending on the chosen "row"
-#row = (0,0) : peak intensity from the raw data
-#row = (1,1) : peak intensity from the DoG filtered data
-#row = (2,2) : peak intensity from the background subtracted data
-#row = (3,3) : voxel size from the watershed
-points, intensities = thresholdPoints(points, intensities, threshold = (20, 900), row = (3,3));
-io.writePoints(FilteredCellsFile, (points, intensities));
-
-
-## Check Cell detection (For the testing phase only, remove when running on the full size dataset)
-#######################
-#import ClearMap.Visualization.Plot as plt;
-#pointSource= os.path.join(BaseDirectory, FilteredCellsFile[0]);
-#data = plt.overlayPoints(cFosFile, pointSource, pointColor = None, **cFosFileRange);
-#io.writeData(os.path.join(BaseDirectory, 'cells_check.tif'), data);
+#
+##Thresholding: the threshold parameter is either intensity or size in voxel, depending on the chosen "row"
+##row = (0,0) : peak intensity from the raw data
+##row = (1,1) : peak intensity from the DoG filtered data
+##row = (2,2) : peak intensity from the background subtracted data
+##row = (3,3) : voxel size from the watershed
+#points, intensities = thresholdPoints(points, intensities, threshold = (20, 900), row = (3,3));
+#io.writePoints(FilteredCellsFile, (points, intensities));
+#
+#
+### Check Cell detection (For the testing phase only, remove when running on the full size dataset)
+########################
+##import ClearMap.Visualization.Plot as plt;
+##pointSource= os.path.join(BaseDirectory, FilteredCellsFile[0]);
+##data = plt.overlayPoints(cFosFile, pointSource, pointColor = None, **cFosFileRange);
+##io.writeData(os.path.join(BaseDirectory, 'cells_check.tif'), data);
 
 
 # Transform point coordinates
@@ -65,6 +65,9 @@ points = transformPoints(points, transformDirectory = RegistrationAlignmentParam
 io.writePoints(TransformedCellsFile, points);
 
 
+
+
+
 # Heat map generation
 #####################
 
@@ -75,14 +78,17 @@ intensities = io.readPoints(FilteredCellsFile[1])
 #AER: cells_transformed_to Atlas.npy used for voxelization without weights
 vox = voxelize(points, AtlasFile, **voxelizeParameter);
 if not isinstance(vox, basestring):
-  io.writeData(os.path.join(BaseDirectory, 'cells_heatmap.tif'), vox.astype('int32'));
+  io.writeData(os.path.join(BaseDirectory, 'AER_voxels_heatmap.tif'), vox.astype('int32'));
 
 #With weigths from the intensity file (here raw intensity):
 voxelizeParameter["weights"] = intensities[:,0].astype(float);
 vox = voxelize(points, AtlasFile, **voxelizeParameter);
 if not isinstance(vox, basestring):
-  io.writeData(os.path.join(BaseDirectory, 'cells_heatmap_weighted.tif'), vox.astype('int32'));
-  
+  io.writeData(os.path.join(BaseDirectory, 'AER_voxels_heatmap_weighted.tif'), vox.astype('int32'));
+
+
+
+
 
 #Table generation:
 ##################
@@ -92,7 +98,7 @@ table = numpy.zeros(ids.shape, dtype=[('id','int64'),('counts','f8'),('name', 'a
 table["id"] = ids;
 table["counts"] = counts;
 table["name"] = labelToName(ids);
-io.writeTable(os.path.join(BaseDirectory, 'Annotated_counts_intensities.csv'), table);
+io.writeTable(os.path.join(BaseDirectory, 'AER_Annotated_counts_intensities.csv'), table);
 
 #Without weigths (pure cell number):
 ids, counts = countPointsInRegions(points, labeledImage = AnnotationFile, intensities = None);
@@ -100,7 +106,8 @@ table = numpy.zeros(ids.shape, dtype=[('id','int64'),('counts','f8'),('name', 'a
 table["id"] = ids;
 table["counts"] = counts;
 table["name"] = labelToName(ids);
-io.writeTable(os.path.join(BaseDirectory, 'Annotated_counts.csv'), table);
+io.writeTable(os.path.join(BaseDirectory, 'AER_Annotated_counts.csv'), table);
+
 
 
 #####################

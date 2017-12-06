@@ -5,7 +5,7 @@
 import os, re
 
 HomeDirectory = '/home/clearmap/Documents/data'
-ParameterFile = '/home/clearmap/ClearMap/ClearMap/Scripts/hk_1_parameter_file_template_batch.py'
+ParameterFile = '/home/clearmap/ClearMap/ClearMap/Scripts/Parameters/parameter_file_batch.py'
 Conditions = ['haloperidol', 'saline']
 
 for Experiment in Conditions:
